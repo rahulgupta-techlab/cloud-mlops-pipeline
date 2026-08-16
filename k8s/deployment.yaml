@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-mlops-pipeline
+  labels:
+    app: cloud-mlops-pipeline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloud-mlops-pipeline
+  template:
+    metadata:
+      labels:
+        app: cloud-mlops-pipeline
+    spec:
+      containers:
+        - name: cloud-mlops-pipeline
+          image: cloud-mlops-pipeline:latest
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-mlops-pipeline
+spec:
+  selector:
+    app: cloud-mlops-pipeline
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: ClusterIP
