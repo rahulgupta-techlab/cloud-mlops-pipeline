@@ -64,3 +64,7 @@ pytest tests/
 ```
 
 `.github/workflows/ci.yml` runs the test suite on every push and pull request.
+
+## License
+
+Copyright (c) 2026 Rahul Gupta. All rights reserved. Published for viewing and evaluation only; copying or reuse requires written permission. See [LICENSE](LICENSE).
